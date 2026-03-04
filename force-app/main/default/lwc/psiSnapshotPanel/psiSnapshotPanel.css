@@ -1,0 +1,57 @@
+.panelHeader { display: grid; gap: 4px; margin-bottom: 10px; }
+.panelTitle { font-weight: 900; font-size: 14px; color: rgba(0,0,0,0.80); }
+.panelMeta { font-size: 11px; color: rgba(0,0,0,0.60); }
+.panelLine { display: flex; gap: 6px; align-items: center; font-size: 11px; color: rgba(0,0,0,0.62); }
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+
+.box { border: 1px solid rgba(0,0,0,0.06); border-radius: 14px; background: rgba(255,255,255,0.92); overflow: hidden; }
+.boxHead { padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.06); }
+.boxTitle { font-size: 12px; font-weight: 900; color: rgba(0,0,0,0.68); text-transform: uppercase; letter-spacing: 0.12px; }
+
+.list { list-style: none; padding: 0; margin: 0; max-height: 220px; overflow: auto; }
+.listItem { padding: 10px 12px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+.listItem:hover { background: rgba(120,84,191,0.05); }
+.liMain { font-weight: 900; font-size: 12px; color: rgba(0,0,0,0.78); }
+.liSub { margin-top: 2px; font-size: 11px; color: rgba(0,0,0,0.62); }
+
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+.muted { color: rgba(0,0,0,0.58); }
+.dot { opacity: 0.6; }
+
+.pill {
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: rgba(0,0,0,0.03);
+  font-size: 11px;
+  font-weight: 900;
+  color: rgba(0,0,0,0.70);
+}
+.pillMuted { background: rgba(120,84,191,0.08); border-color: rgba(120,84,191,0.18); color: rgba(120,84,191,0.85); }
+.pillOk { background: rgba(0, 180, 90, 0.10); border-color: rgba(0,180,90,0.25); color: rgba(0, 120, 60, 1); }
+.pillWarn { background: rgba(255, 183, 0, 0.14); border-color: rgba(255,183,0,0.35); color: rgba(120, 70, 0, 1); }
+
+.note {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px dashed rgba(0,0,0,0.16);
+  background: rgba(255,255,255,0.75);
+  font-size: 12px;
+  color: rgba(0,0,0,0.65);
+  margin-bottom: 10px;
+}
+.noteWarn { border-color: rgba(255,183,0,0.30); background: rgba(255,183,0,0.06); }
+
+.empty {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px dashed rgba(0,0,0,0.14);
+  color: rgba(0,0,0,0.62);
+  background: rgba(255,255,255,0.7);
+  font-size: 12px;
+}
+
+@media (max-width: 1100px) {
+  .grid2 { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+  <types>
+    <members>PSI_AppController</members>
+    <members>PSI_AppControllerTest</members>
+    <name>ApexClass</name>
+  </types>
+  <types>
+    <members>psiApp</members>
+    <members>psiUserPicker</members>
+    <members>psiSnapshotPanel</members>
+    <members>psiUtil</members>
+    <name>LightningComponentBundle</name>
+  </types>
+  <types>
+    <members>Permission_Set_Inspector</members>
+    <name>FlexiPage</name>
+  </types>
+  <types>
+    <members>Permission_Set_Inspector</members>
+    <name>CustomTab</name>
+  </types>
+  <types>
+    <members>Permission_Set_Inspector</members>
+    <name>CustomApplication</name>
+  </types>
+  <types>
+    <members>Permission_Set_Inspector</members>
+    <name>PermissionSet</name>
+  </types>
+  <version>55.0</version>
+</Package>

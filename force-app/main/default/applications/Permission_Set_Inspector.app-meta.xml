@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+  <description>Read-only dashboard for permission set assignments and user-to-user diff.</description>
+  <formFactors>Large</formFactors>
+  <label>Permission Set Inspector</label>
+  <navType>Standard</navType>
+  <tabs>Permission_Set_Inspector</tabs>
+  <uiType>Lightning</uiType>
+</CustomApplication>

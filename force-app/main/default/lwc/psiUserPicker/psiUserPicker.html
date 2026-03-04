@@ -1,0 +1,32 @@
+<template>
+  <div class="picker">
+    <lightning-input type="search" label={label} value={valueLabel} onchange={onInput} placeholder="Type at least 2 characters..."></lightning-input>
+
+    <template if:true={showList}>
+      <div class="dropdown">
+        <template if:true={busy}>
+          <div class="ddRow muted">Searching...</div>
+        </template>
+
+        <template if:false={busy}>
+          <template if:true={results.length}>
+            <template for:each={results} for:item="u">
+              <button key={u.id} class="ddRow" data-id={u.id} onclick={select}>
+                <div class="ddMain">{u.name}</div>
+                <div class="ddSub mono">{u.username}</div>
+                <div class="ddMeta">
+                  <span class={u.activeClass}>{u.activeLabel}</span>
+                  <span class="dot">•</span>
+                  <span class="muted">{u.profileName}</span>
+                </div>
+              </button>
+            </template>
+          </template>
+          <template if:false={results.length}>
+            <div class="ddRow muted">No matches.</div>
+          </template>
+        </template>
+      </div>
+    </template>
+  </div>
+</template>

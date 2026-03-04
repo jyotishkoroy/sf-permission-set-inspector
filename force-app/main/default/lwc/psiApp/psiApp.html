@@ -1,0 +1,197 @@
+<template>
+  <section class="shell">
+    <header class="hero">
+      <div class="heroLeft">
+        <div class="title">Permission Set Inspector</div>
+        <div class="subtitle">Assignments · group memberships · quick diff</div>
+      </div>
+      <div class="heroRight">
+        <span class={envPillClass}>{envLabel}</span>
+        <span class="pill pillMuted">v{info.version}</span>
+        <lightning-button variant="neutral" label="Refresh" onclick={refresh} disabled={busy}></lightning-button>
+      </div>
+    </header>
+
+    <div class="content">
+      <article class="card">
+        <div class="cardHeader">
+          <div class="cardTitle">Compare two users</div>
+          <div class="pills">
+            <lightning-input type="checkbox" label="Expand groups" checked={expandGroups} onchange={toggleExpand}></lightning-input>
+            <lightning-button variant="brand" label="Compare" onclick={compare} disabled={compareDisabled}></lightning-button>
+          </div>
+        </div>
+        <div class="cardBody">
+          <div class="pickGrid">
+            <c-psi-user-picker label="User A" onuserselect={onPickA} onuserclear={onClearA}></c-psi-user-picker>
+            <c-psi-user-picker label="User B" onuserselect={onPickB} onuserclear={onClearB}></c-psi-user-picker>
+          </div>
+
+          <template if:true={compareWarning}>
+            <div class="note noteWarn slds-m-top_small">{compareWarning}</div>
+          </template>
+
+          <template if:true={comparison}>
+            <div class="diffTabs slds-m-top_small">
+              <button class={diffTabPsClass} onclick={showPermSetDiff}>Permission Sets</button>
+              <button class={diffTabGrpClass} onclick={showGroupDiff}>Groups</button>
+            </div>
+
+            <template if:true={isPermSetDiff}>
+              <div class="diffGrid">
+                <div class="diffCol">
+                  <div class="diffHead">
+                    <div class="diffTitle">Only A</div>
+                    <span class="pill">{psCounts.onlyA}</span>
+                  </div>
+                  <ul class="list">
+                    <template for:each={comparison.permissionSets.onlyA} for:item="r">
+                      <li key={r.id} class="listItem">
+                        <div class="liMain">{r.name}</div>
+                        <div class="liSub mono">{r.developerName}</div>
+                      </li>
+                    </template>
+                  </ul>
+                  <template if:false={psCounts.onlyA}><div class="empty">—</div></template>
+                </div>
+
+                <div class="diffCol">
+                  <div class="diffHead">
+                    <div class="diffTitle">Both</div>
+                    <span class="pill pillOk">{psCounts.both}</span>
+                  </div>
+                  <ul class="list">
+                    <template for:each={comparison.permissionSets.both} for:item="r">
+                      <li key={r.id} class="listItem">
+                        <div class="liMain">{r.name}</div>
+                        <div class="liSub mono">{r.developerName}</div>
+                      </li>
+                    </template>
+                  </ul>
+                  <template if:false={psCounts.both}><div class="empty">—</div></template>
+                </div>
+
+                <div class="diffCol">
+                  <div class="diffHead">
+                    <div class="diffTitle">Only B</div>
+                    <span class="pill">{psCounts.onlyB}</span>
+                  </div>
+                  <ul class="list">
+                    <template for:each={comparison.permissionSets.onlyB} for:item="r">
+                      <li key={r.id} class="listItem">
+                        <div class="liMain">{r.name}</div>
+                        <div class="liSub mono">{r.developerName}</div>
+                      </li>
+                    </template>
+                  </ul>
+                  <template if:false={psCounts.onlyB}><div class="empty">—</div></template>
+                </div>
+              </div>
+            </template>
+
+            <template if:true={isGroupDiff}>
+              <div class="diffGrid">
+                <div class="diffCol">
+                  <div class="diffHead">
+                    <div class="diffTitle">Only A</div>
+                    <span class="pill">{grpCounts.onlyA}</span>
+                  </div>
+                  <ul class="list">
+                    <template for:each={comparison.groups.onlyA} for:item="r">
+                      <li key={r.id} class="listItem">
+                        <div class="liMain">{r.name}</div>
+                        <div class="liSub mono">{r.developerName}</div>
+                      </li>
+                    </template>
+                  </ul>
+                  <template if:false={grpCounts.onlyA}><div class="empty">—</div></template>
+                </div>
+
+                <div class="diffCol">
+                  <div class="diffHead">
+                    <div class="diffTitle">Both</div>
+                    <span class="pill pillOk">{grpCounts.both}</span>
+                  </div>
+                  <ul class="list">
+                    <template for:each={comparison.groups.both} for:item="r">
+                      <li key={r.id} class="listItem">
+                        <div class="liMain">{r.name}</div>
+                        <div class="liSub mono">{r.developerName}</div>
+                      </li>
+                    </template>
+                  </ul>
+                  <template if:false={grpCounts.both}><div class="empty">—</div></template>
+                </div>
+
+                <div class="diffCol">
+                  <div class="diffHead">
+                    <div class="diffTitle">Only B</div>
+                    <span class="pill">{grpCounts.onlyB}</span>
+                  </div>
+                  <ul class="list">
+                    <template for:each={comparison.groups.onlyB} for:item="r">
+                      <li key={r.id} class="listItem">
+                        <div class="liMain">{r.name}</div>
+                        <div class="liSub mono">{r.developerName}</div>
+                      </li>
+                    </template>
+                  </ul>
+                  <template if:false={grpCounts.onlyB}><div class="empty">—</div></template>
+                </div>
+              </div>
+            </template>
+          </template>
+
+          <template if:false={comparison}>
+            <div class="empty slds-m-top_small">Pick User A and User B, then click Compare.</div>
+          </template>
+        </div>
+      </article>
+
+      <div class="bottomGrid">
+        <article class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">User A snapshot</div>
+            <div class="pills">
+              <lightning-button variant="neutral" label="Load" onclick={loadA} disabled={loadADisabled}></lightning-button>
+            </div>
+          </div>
+          <div class="cardBody">
+            <template if:true={snapA}>
+              <c-psi-snapshot-panel snapshot={snapA}></c-psi-snapshot-panel>
+            </template>
+            <template if:false={snapA}>
+              <div class="empty">Select User A to load a snapshot.</div>
+            </template>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">User B snapshot</div>
+            <div class="pills">
+              <lightning-button variant="neutral" label="Load" onclick={loadB} disabled={loadBDisabled}></lightning-button>
+            </div>
+          </div>
+          <div class="cardBody">
+            <template if:true={snapB}>
+              <c-psi-snapshot-panel snapshot={snapB}></c-psi-snapshot-panel>
+            </template>
+            <template if:false={snapB}>
+              <div class="empty">Select User B to load a snapshot.</div>
+            </template>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <template if:true={busy}>
+      <div class="mask">
+        <div class="maskCard">
+          <div class="spinner"></div>
+          <div class="maskText">{busyLabel}</div>
+        </div>
+      </div>
+    </template>
+  </section>
+</template>
